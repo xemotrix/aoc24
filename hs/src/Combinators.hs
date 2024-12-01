@@ -1,12 +1,14 @@
 module Combinators where
 
+import Control.Arrow ((***))
+
 infixr 8 .:
 
 (.:) :: (c -> d) -> (a -> b -> c) -> (a -> b -> d)
 (.:) = (.) . (.)
 
 both :: (a -> b) -> (a, a) -> (b, b)
-both f (x, y) = (f x, f y)
+both f = f *** f
 
 apply2Way :: (a -> b -> c) -> (d -> a) -> (d -> b) -> d -> c
 apply2Way f g h x = f (g x) (h x)
