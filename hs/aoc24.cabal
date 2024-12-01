@@ -1,0 +1,30 @@
+cabal-version:      3.0
+name:               aoc24
+version:            0.1.0.0
+author:             chema.rodriguez
+maintainer:         chema.rodriguez@cabify.com
+build-type:         Simple
+
+common warnings
+    ghc-options: -Wall
+
+library
+    import:           warnings
+    exposed-modules:
+        Combinators
+        ,Utils
+    build-depends:    
+        base ^>=4.17.2.1
+    hs-source-dirs:   src
+    default-language: GHC2021
+
+executable aoc24
+    import:           warnings
+    main-is:          Main.hs
+    other-modules:
+        Day1
+    build-depends:
+        base ^>=4.17.2.1
+        ,aoc24
+    hs-source-dirs:   app
+    default-language: GHC2021

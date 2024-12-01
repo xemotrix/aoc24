@@ -1,0 +1,23 @@
+module Combinators where
+
+infixr 8 .:
+
+(.:) :: (c -> d) -> (a -> b -> c) -> (a -> b -> d)
+(.:) = (.) . (.)
+
+fork :: (a -> b) -> (a -> c) -> a -> (b, c)
+fork f g x = (f x, g x)
+
+both :: (a -> b) -> (a, a) -> (b, b)
+both f (x, y) = (f x, f y)
+
+apply2Way :: (a -> b -> c) -> (d -> a) -> (d -> b) -> d -> c
+apply2Way f g h x = f (g x) (h x)
+
+(<$$>) :: (Functor f0, Functor f1) => (a -> b) -> f1 (f0 a) -> f1 (f0 b)
+(<$$>) = fmap . fmap
+
+infixr 0 $$
+
+($$) :: (a -> a -> b) -> a -> b
+f $$ x = f x x
