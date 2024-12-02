@@ -22,7 +22,7 @@ isSafe :: [Int] -> Bool
 isSafe = liftA2 (&&) sameSign max3 . differences
   where
     sameSign = (1 ==) . length . nub . map signum
-    max3 = between 1 3 . maximum . map abs
+    max3 = all (between 1 3 . abs)
     differences = zipWith (-) <*> tail
 
 parse :: String -> [[Int]]
