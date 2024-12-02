@@ -1,7 +1,7 @@
 module Utils where
 
 import Combinators
-import Control.Applicative (liftA2)
+import Control.Monad (liftM2)
 import Debug.Trace (traceShow)
 
 readInput :: Int -> IO String
@@ -17,4 +17,10 @@ chunk _ [] = []
 chunk n xs = take n xs : chunk n (drop n xs)
 
 combinations :: [a] -> [b] -> [(a, b)]
-combinations = liftA2 (,)
+combinations = liftM2 (,)
+
+between :: (Ord a) => a -> a -> a -> Bool
+between low high x = low <= x && x <= high
+
+count :: (a -> Bool) -> [a] -> Int
+count p = length . filter p

@@ -10,9 +10,6 @@ infixr 8 .:
 both :: (a -> b) -> (a, a) -> (b, b)
 both f = f *** f
 
-apply2Way :: (a -> b -> c) -> (d -> a) -> (d -> b) -> d -> c
-apply2Way f g h x = f (g x) (h x)
-
 (<$$>) :: (Functor f0, Functor f1) => (a -> b) -> f1 (f0 a) -> f1 (f0 b)
 (<$$>) = (<$>) . (<$>)
 

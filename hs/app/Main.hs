@@ -1,13 +1,14 @@
 module Main where
 
 import Day1
+import Day2
 import System.Environment (getArgs)
 import Utils (readInput)
 
 type Day = (Int, String -> IO (String, String))
 
 days :: [Day]
-days = [(1, Day1.run)]
+days = [(1, Day1.run), (2, Day2.run)]
 
 main :: IO ()
 main = do

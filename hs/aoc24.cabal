@@ -22,7 +22,7 @@ executable aoc24
     import:           warnings
     main-is:          Main.hs
     other-modules:
-        Day1
+        Day1,Day2
     build-depends:
         base ^>=4.17.2.1
         ,aoc24
