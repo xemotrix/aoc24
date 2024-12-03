@@ -5,8 +5,8 @@ import Control.Arrow ((&&&))
 import Data.List (sort, transpose)
 import Utils (chunk, combinations)
 
-run :: String -> IO (String, String)
-run = return . both show . (part1 &&& part2) . parse
+run :: String -> (String, String)
+run = both show . (part1 &&& part2) . parse
 
 part1, part2 :: ([Int], [Int]) -> Int
 part1 = sum . map abs . uncurry (zipWith (-)) . both sort

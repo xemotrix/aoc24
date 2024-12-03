@@ -6,8 +6,8 @@ import Control.Arrow (second, (&&&))
 import Data.List (nub)
 import Utils (between, count)
 
-run :: String -> IO (String, String)
-run = return . both show . (fst &&& uncurry (+)) . (part1 &&& part2) . parse
+run :: String -> (String, String)
+run = both show . (fst &&& uncurry (+)) . (part1 &&& part2) . parse
 
 part1 :: [[Int]] -> Int
 part1 = count isSafe

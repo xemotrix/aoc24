@@ -6,8 +6,8 @@ import Control.Monad (liftM2)
 import Data.Maybe (fromJust)
 import Parser (char, cond, digit, parse, some, string, (<<<), (<|>), (>>>))
 
-run :: String -> IO (String, String)
-run = return . both show . (part1 &&& part2) . parseInput
+run :: String -> (String, String)
+run = both show . (part1 &&& part2) . parseInput
   where
     part1 = sum . map eval
     part2 = part1 . dontDo

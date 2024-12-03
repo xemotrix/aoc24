@@ -6,7 +6,7 @@ import Day3
 import System.Environment (getArgs)
 import Utils (readInput)
 
-type Day = (Int, String -> IO (String, String))
+type Day = (Int, String -> (String, String))
 
 days :: [Day]
 days = [(1, Day1.run), (2, Day2.run), (3, Day3.run)]
@@ -21,10 +21,7 @@ main = do
   mapM_ runDay days'
 
 runDay :: Day -> IO ()
-runDay (daynum, dayf) = do
-  input <- readInput daynum
-  res <- dayf input
-  putStrLn $ fmtDay res
+runDay (daynum, dayf) = readInput daynum >>= putStrLn . fmtDay . dayf
   where
     fmtDay (part1, part2) =
       "day "
