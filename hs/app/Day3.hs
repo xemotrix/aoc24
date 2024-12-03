@@ -1,37 +1,22 @@
 module Day3 (run) where
 
-import Combinators (both)
+import Combinators (both, (.:))
 import Control.Arrow ((&&&))
-import Data.Maybe (fromJust)
-import Parser (char, cond, digit, parse, some, string, (<<<), (<|>), (>>>))
+import Control.Monad (void)
+import Parser
 
 run :: String -> (String, String)
-run = both show . (part1 &&& part2) . parseInput
+run = both show . (run' p1 &&& run' p2)
   where
-    part1 = sum . map eval
-    part2 = part1 . dontDo
+    run' = sum .: expect . some
+    p1 = mul <|> (anyChar >>> p1)
+    p2 = mul <|> ((dontDo <|> void anyChar) >>> p2)
 
-data Instruction = Mul Int Int | Do | Dont | Noop
-  deriving (Eq)
-
-eval :: Instruction -> Int
-eval (Mul a b) = a * b
-eval _ = 0
-
-dontDo :: [Instruction] -> [Instruction]
-dontDo [] = []
-dontDo (i@(Mul _ _) : is) = i : dontDo is
-dontDo (Dont : is) = dontDo $ dropWhile (/= Do) is
-dontDo (_ : is) = dontDo is
-
-parseInput :: String -> [Instruction]
-parseInput = fst . fromJust . parse parser
+mul :: Parser Int
+mul = (*) <$> x <*> y
   where
-    parser = some (do' <|> dont <|> mul <|> skip)
-    do' = Do <$ string "do()"
-    dont = Dont <$ string "don't()"
-    mul =
-      Mul
-        <$> (read <$> string "mul(" >>> some digit <<< char ',')
-        <*> (read <$> some digit <<< char ')')
-    skip = Noop <$ cond (const True)
+    x = read <$> string "mul(" >>> some digit <<< char ','
+    y = read <$> some digit <<< char ')'
+
+dontDo :: Parser ()
+dontDo = void $ string "don't()" >>> dropUntil (string "do()")

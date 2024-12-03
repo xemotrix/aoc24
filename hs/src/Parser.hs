@@ -2,6 +2,9 @@
 
 module Parser where
 
+import Combinators ((.:))
+import Data.Maybe (fromJust)
+
 newtype Parser a = P (String -> Maybe (a, String))
 
 instance Functor Parser where
@@ -24,6 +27,14 @@ instance Monad Parser where
 
 parse :: Parser o -> String -> Maybe (o, String)
 parse (P f) = f
+
+expect :: Parser o -> String -> o
+expect = fst . fromJust .: parse
+
+anyChar :: Parser Char
+anyChar = P $ \case
+  (c' : cs) -> Just (c', cs)
+  _ -> Nothing
 
 char :: Char -> Parser Char
 char c = P $ \case
@@ -49,6 +60,9 @@ p <<< q = do
   l <- p
   _ <- q
   return l
+
+optional :: Parser o -> Parser (Maybe o)
+optional p = (Just <$> p) <|> return Nothing
 
 some :: Parser o -> Parser [o]
 some p =
