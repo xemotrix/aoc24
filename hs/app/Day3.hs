@@ -2,7 +2,6 @@ module Day3 (run) where
 
 import Combinators (both)
 import Control.Arrow ((&&&))
-import Control.Monad (liftM2)
 import Data.Maybe (fromJust)
 import Parser (char, cond, digit, parse, some, string, (<<<), (<|>), (>>>))
 
@@ -32,8 +31,7 @@ parseInput = fst . fromJust . parse parser
     do' = Do <$ string "do()"
     dont = Dont <$ string "don't()"
     mul =
-      liftM2
-        Mul
-        (read <$> string "mul(" >>> some digit <<< char ',')
-        (read <$> some digit <<< char ')')
+      Mul
+        <$> (read <$> string "mul(" >>> some digit <<< char ',')
+        <*> (read <$> some digit <<< char ')')
     skip = Noop <$ cond (const True)
