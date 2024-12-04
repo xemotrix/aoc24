@@ -1,7 +1,6 @@
 module Day2 (run) where
 
 import Combinators (both, (.:))
-import Control.Applicative (liftA2)
 import Control.Arrow (second, (&&&))
 import Data.List (nub)
 import Utils (between, count)
