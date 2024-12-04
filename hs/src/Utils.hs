@@ -23,6 +23,11 @@ count p = length . filter p
 indexMat :: [[a]] -> [((Int, Int), a)]
 indexMat xs =
   [ ((y, x), c)
-  | (y, row) <- zip [0 ..] xs,
-    (x, c) <- zip [0 ..] row
+    | (y, row) <- zip [0 ..] xs,
+      (x, c) <- zip [0 ..] row
   ]
+
+(!?) :: [a] -> Int -> Maybe a
+xs !? i
+  | i < 0 || i >= length xs = Nothing
+  | otherwise = Just (xs !! i)

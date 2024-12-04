@@ -2,10 +2,10 @@ module Day4 (run) where
 
 import Combinators (both)
 import Control.Arrow ((&&&))
-import Data.List (singleton, transpose, (!?))
+import Data.List (singleton, transpose)
 import Data.Maybe (mapMaybe)
 import Parser (anyChar, expect, some, string, (<|>), (>>>))
-import Utils (count, indexMat)
+import Utils (count, indexMat, (!?))
 
 run :: String -> (String, String)
 run = both show . (part1 &&& part2)
