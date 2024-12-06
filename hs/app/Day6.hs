@@ -28,14 +28,13 @@ part1 :: State -> Int
 part1 = length . calcVisited
 
 part2 :: State -> Int
-part2 = score . (map . addObst <*> visitedP1)
+part2 = score . (map . addObst <*> calcVisited)
   where
-    visitedP1 = nub . calcVisited
     addObst s next = s {obst = insert next (obst s), testObst = Just next}
     score = length . nub . mapMaybe (loopAt . advance)
 
 calcVisited :: State -> [Point]
-calcVisited = map fst . toList . visited . advance
+calcVisited = nub . map fst . toList . visited . advance
 
 advance :: State -> State
 advance s | outOfBounds s = s
