@@ -23,9 +23,10 @@ executable aoc24
     import:           warnings
     main-is:          Main.hs
     other-modules:
-        Day1,Day2,Day3,Day4
+        Day1,Day2,Day3,Day4,Day5,Day6
     build-depends:
         base ^>=4.17.2.1
         ,aoc24
+        ,containers ^>= 0.7
     hs-source-dirs:   app
     default-language: GHC2021

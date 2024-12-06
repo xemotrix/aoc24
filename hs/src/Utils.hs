@@ -31,3 +31,9 @@ indexMat xs =
 xs !? i
   | i < 0 || i >= length xs = Nothing
   | otherwise = Just (xs !! i)
+
+split :: (Eq a) => a -> [a] -> [[a]]
+split _ [] = []
+split c s = x : split c (drop 1 s')
+  where
+    (x, s') = break (== c) s
