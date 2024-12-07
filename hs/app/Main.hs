@@ -27,7 +27,9 @@ main = do
   mapM_ runDay days'
 
 runDay :: Day -> IO ()
-runDay (daynum, dayf) = readInput daynum >>= putStrLn . fmtDay . dayf
+runDay (daynum, dayf) = do
+  input <- readInput daynum
+  putStrLn $ fmtDay $ dayf input
   where
     fmtDay (part1, part2) =
       "day "
