@@ -2,33 +2,24 @@ module Day7 (run) where
 
 import Combinators (both, (.:))
 import Control.Arrow ((&&&))
-import Control.Monad (join)
 import Data.Function (on)
-import Data.List (find)
-import Data.Maybe (isJust, mapMaybe)
 
 run :: String -> (String, String)
-run = both show . (part1 &&& part2) . parse
-
-type Op = Int -> Int -> Int
-
-type Equation = (Int, [Int])
-
-part1, part2 :: [Equation] -> Int
-part1 = sum . mapMaybe (eval [(*), (+)])
-part2 = sum . mapMaybe (eval [(*), (+), read .: (++) `on` show])
-
-eval :: [Op] -> Equation -> Maybe Int
-eval ops = join . find isJust . (map . eval' <*> opCombis)
+run = both show . (run' part1 &&& run' part2) . parse
   where
-    opCombis (_, nums) = mapM (const ops) [1 .. length nums - 1]
+    run' = sum . map fst .: filter . isValid
+    part1 = [(*), (+)]
+    part2 = (read .: (++) `on` show) : part1
 
-eval' :: Equation -> [Op] -> Maybe Int
-eval' (res, x : y : ns) (op : ops) = eval' (res, x `op` y : ns) ops
-eval' (res, [n]) _ | res == n = Just n
-eval' _ _ = Nothing
+isValid :: [Int -> Int -> Int] -> (Int, [Int]) -> Bool
+isValid _ (res, x : _) | x > res = False
+isValid ops (res, x : y : ns) = any testOp ops
+  where
+    testOp op = isValid ops (res, x `op` y : ns)
+isValid _ (res, [n]) = res == n
+isValid _ (_, []) = False
 
-parse :: String -> [Equation]
+parse :: String -> [(Int, [Int])]
 parse = map (parseRes &&& parseNums) . lines
   where
     parseRes = read . takeWhile (/= ':')

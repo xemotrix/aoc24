@@ -1,11 +1,10 @@
 module Utils where
 
-import Combinators
 import Control.Monad (liftM2)
 import Debug.Trace (traceShow)
 
 inspect :: (Show a) => a -> a
-inspect x = traceShow $$ x
+inspect x = traceShow x x
 
 chunk :: Int -> [a] -> [[a]]
 chunk _ [] = []
