@@ -6,19 +6,16 @@ import Day3
 import Day4
 import Day5
 import Day6
+import Day7
 import System.Environment (getArgs)
 
 type Day = (Int, String -> (String, String))
 
 days :: [Day]
 days =
-  [ (1, Day1.run),
-    (2, Day2.run),
-    (3, Day3.run),
-    (4, Day4.run),
-    (5, Day5.run),
-    (6, Day6.run)
-  ]
+  zip
+    [1 ..]
+    [Day1.run, Day2.run, Day3.run, Day4.run, Day5.run, Day6.run, Day7.run]
 
 main :: IO ()
 main = do
