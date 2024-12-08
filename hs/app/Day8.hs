@@ -10,12 +10,10 @@ run :: String -> (String, String)
 run = both show . (run' part1 &&& run' part2) . parse
   where
     run' = uncurry score .: first
+    part1 = take 1 . drop 1 .: part2
+    part2 = takeWhile . inBounds
 
 type Ant = (Int, Int)
-
-part1, part2 :: (Int, Int) -> [Ant] -> [Ant]
-part1 = take 1 . drop 1 .: part2
-part2 = takeWhile . inBounds
 
 inBounds :: (Int, Int) -> Ant -> Bool
 inBounds (h, w) (y, x) = y >= 0 && y < h && x >= 0 && x < w
