@@ -21,11 +21,9 @@ inBounds :: (Int, Int) -> Ant -> Bool
 inBounds (h, w) (y, x) = y >= 0 && y < h && x >= 0 && x < w
 
 score :: ([Ant] -> [Ant]) -> [[Ant]] -> Int
-score f = length . nub . concatMap (genAntinodes f)
-
-genAntinodes :: ([Ant] -> [Ant]) -> [Ant] -> [Ant]
-genAntinodes f = nub . concatMap (antinodes f) . combis
+score f = length . nub . concatMap genAntinodes
   where
+    genAntinodes = concatMap (antinodes f) . combis
     combis = filter (uncurry (/=)) . (combinations $$)
 
 antinodes :: ([Ant] -> [Ant]) -> (Ant, Ant) -> [Ant]
