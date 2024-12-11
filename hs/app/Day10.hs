@@ -21,7 +21,7 @@ calcNines :: (Pos -> [Pos]) -> Pos -> [Pos]
 calcNines neigf = ((++) <$> getNines <*> getRest) . neigf
   where
     getNines = nub . filter ((9 ==) . snd)
-    getRest = concatMap (calcNines neigf) . filter ((/= 9) . snd)
+    getRest = concatMap (calcNines neigf) . filter ((9 /=) . snd)
 
 neigs :: Map (Int, Int) Pos -> Pos -> [Pos]
 neigs m ((y, x), height) = filter diff1 $ mapMaybe (`M.lookup` m) coords
