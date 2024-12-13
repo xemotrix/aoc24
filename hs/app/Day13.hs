@@ -18,9 +18,7 @@ part2 :: [(Matrix Rational, Matrix Rational)] -> Integer
 part2 = part1 . map (second $ fmap (+ 10000000000000))
 
 solve :: (Matrix Rational, Matrix Rational) -> Integer
-solve = score . uncurry M.multStd . first inv
-  where
-    inv = fromRight undefined . M.inverse
+solve = score . uncurry M.multStd . first (fromRight undefined . M.inverse)
 
 score :: Matrix Rational -> Integer
 score = score' . mapM ratioToInt . M.toList
