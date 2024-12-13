@@ -11,10 +11,8 @@ import Utils (chunk, split)
 run :: String -> (String, String)
 run = both show . (part1 &&& part2) . parse
 
-part1 :: [(Matrix Rational, Matrix Rational)] -> Integer
+part1, part2 :: [(Matrix Rational, Matrix Rational)] -> Integer
 part1 = sum . map solve
-
-part2 :: [(Matrix Rational, Matrix Rational)] -> Integer
 part2 = part1 . map (second $ fmap (+ 10000000000000))
 
 solve :: (Matrix Rational, Matrix Rational) -> Integer
