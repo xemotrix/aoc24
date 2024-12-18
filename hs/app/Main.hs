@@ -9,6 +9,7 @@ import Day14
 import Day15
 import Day16
 import Day17
+import Day18
 import Day2
 import Day3
 import Day4
@@ -41,7 +42,8 @@ days =
       Day14.run,
       Day15.run,
       Day16.run,
-      Day17.run
+      Day17.run,
+      Day18.run
     ]
 
 main :: IO ()
