@@ -36,3 +36,11 @@ split _ [] = []
 split c s = x : split c (drop 1 s')
   where
     (x, s') = break (== c) s
+
+type Point = (Int, Int)
+
+manhattan :: Point -> Point -> Int
+manhattan (y1, x1) (y2, x2) = abs (y1 - y2) + abs (x1 - x2)
+
+inBounds :: Point -> Point -> Bool
+inBounds (h, w) (y, x) = y > 0 && y < h - 1 && x > 0 && x < w - 1

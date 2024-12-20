@@ -10,8 +10,6 @@ import Utils
 run :: String -> (String, String)
 run = both show . (part1 &&& part2) . parse
 
-type Point = (Int, Int)
-
 data State = State
   { size :: Point,
     guard :: Point,
