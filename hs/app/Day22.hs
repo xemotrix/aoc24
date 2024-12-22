@@ -14,15 +14,13 @@ part1 = sum . map ((!! 2000) . iterate step)
 part2 = maximum . M.elems . foldl1 (M.unionWith (+)) . map changeMap
 
 changeMap :: Int -> Map [Int] Int
-changeMap = toMap . priceChanges . zipWithDiff . map (`mod` 10) . prices
+changeMap = toMap . changes . zipWithDiff . map (`mod` 10) . prices
   where
     prices = (:) <*> iterate step
     zipWithDiff = map (snd &&& uncurry subtract) . (zip <*> tail)
     toMap = M.fromList . reverse . take 2000
-
-priceChanges :: [(Int, Int)] -> [([Int], Int)]
-priceChanges nums =
-  (map snd (take 4 nums), fst (nums !! 3)) : priceChanges (tail nums)
+    changes = map change . iterate tail
+    change = map snd . take 4 &&& fst . (!! 3)
 
 step :: Int -> Int
 step = foldl1 (.) (map mixAndPrune [(* 2048), (`div` 32), (* 64)])
