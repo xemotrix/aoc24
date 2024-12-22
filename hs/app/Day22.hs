@@ -3,8 +3,7 @@ module Day22 (run) where
 import Combinators (both)
 import Control.Arrow ((&&&))
 import Data.Bits (xor)
-import Data.Function (on)
-import Data.List (maximumBy)
+import Data.Map (Map)
 import Data.Map qualified as M
 
 run :: String -> (String, String)
@@ -12,13 +11,14 @@ run = both show . (part1 &&& part2) . map read . lines
 
 part1, part2 :: [Int] -> Int
 part1 = sum . map ((!! 2000) . iterate step)
-part2 = getBest . mergeMaps . map (toChangeMap . zipWithChanges . firstDigits)
+part2 = maximum . M.elems . foldl1 (M.unionWith (+)) . map changeMap
+
+changeMap :: Int -> Map [Int] Int
+changeMap = toMap . take 2000 . zipWithChanges . map (`mod` 10) . prices
   where
-    firstDigits = map (`mod` 10) . ((:) <*> (take 2000 . iterate step))
+    prices = (:) <*> iterate step
     zipWithChanges = map (snd &&& uncurry subtract) . (zip <*> tail)
-    toChangeMap = M.fromList . reverse . priceChanges
-    mergeMaps = foldl1 (M.unionWith (+))
-    getBest = snd . maximumBy (compare `on` snd) . M.toList
+    toMap = M.fromList . reverse . priceChanges
 
 priceChanges :: [(Int, Int)] -> [([Int], Int)]
 priceChanges nums
