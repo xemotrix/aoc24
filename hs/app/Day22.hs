@@ -25,6 +25,6 @@ priceChanges nums =
   (map snd (take 4 nums), fst (nums !! 3)) : priceChanges (tail nums)
 
 step :: Int -> Int
-step = foldl1 (.) (map mixPrune [(* 2048), (`div` 32), (* 64)])
+step = foldl1 (.) (map mixAndPrune [(* 2048), (`div` 32), (* 64)])
   where
-    mixPrune f sn' = (sn' `xor` f sn') `mod` 16777216
+    mixAndPrune f sn = (sn `xor` f sn) `mod` 16777216
