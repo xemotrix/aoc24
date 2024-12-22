@@ -21,9 +21,8 @@ changeMap = toMap . priceChanges . zipWithDiff . map (`mod` 10) . prices
     toMap = M.fromList . reverse . take 2000
 
 priceChanges :: [(Int, Int)] -> [([Int], Int)]
-priceChanges nums
-  | length nums < 4 = []
-  | otherwise = (map snd (take 4 nums), fst (nums !! 3)) : priceChanges (tail nums)
+priceChanges nums =
+  (map snd (take 4 nums), fst (nums !! 3)) : priceChanges (tail nums)
 
 step :: Int -> Int
 step = foldl1 (.) (map mixPrune [(* 2048), (`div` 32), (* 64)])
