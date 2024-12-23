@@ -17,7 +17,7 @@ type Graph = Map String [String]
 part1 :: Graph -> String
 part1 = show . length . nub . filter startsT . setsOf3
   where
-    setsOf3 = concatMap <$> (nub .: findTri) <*> M.keys
+    setsOf3 = concatMap <$> findTri <*> M.keys
     startsT = any ((== 't') . head)
 
 findTri :: Graph -> String -> [[String]]
