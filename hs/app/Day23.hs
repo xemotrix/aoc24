@@ -1,5 +1,6 @@
 module Day23 (run) where
 
+import Combinators (($$))
 import Control.Arrow (second, (&&&))
 import Data.Function (on)
 import Data.List (intercalate, maximumBy, nub, singleton, sort)
@@ -20,11 +21,11 @@ part1 = show . length . nub . filter startsT . setsOf3
     startsT = any ((== 't') . head)
 
 findTri :: Graph -> String -> [[String]]
-findTri graph node = [sort [node, n1, n2] | (n1, n2) <- combis, connected n1 n2]
-  where
-    connected n1 n2 = maybe False (elem n2) (M.lookup n1 graph)
-    combis = combinations neigs neigs
-    neigs = graph ! node
+findTri graph node =
+  [ sort [node, n1, n2]
+    | (n1, n2) <- combinations $$ (graph ! node),
+      n1 `elem` (graph ! n2)
+  ]
 
 part2 :: Graph -> String
 part2 = intercalate "," . sort . biggest . cliques . M.toList
