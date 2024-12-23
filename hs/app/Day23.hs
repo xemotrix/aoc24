@@ -10,7 +10,7 @@ import Data.Tuple (swap)
 import Utils (combinations, split)
 
 run :: String -> (String, String)
-run = both show . (part1 &&& part2) . parse
+run = (part1 &&& part2) . parse
 
 type Graph = Map String [String]
 
