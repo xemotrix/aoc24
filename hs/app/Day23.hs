@@ -15,10 +15,10 @@ run = (part1 &&& part2) . parse
 type Graph = Map String [String]
 
 part1 :: Graph -> String
-part1 = show . length . nub . filter startsT . setsOf3
+part1 = show . length . nub . setsOf3
   where
-    setsOf3 = concatMap <$> findTri <*> M.keys
-    startsT = any ((== 't') . head)
+    setsOf3 = concatMap <$> findTri <*> candidates
+    candidates = filter ((== 't') . head) . M.keys
 
 findTri :: Graph -> String -> [[String]]
 findTri graph node =
